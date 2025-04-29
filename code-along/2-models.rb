@@ -15,13 +15,64 @@ Company.destroy_all
 # 1b. check out the model file
 
 # 2. insert new rows in companies table
+# INSERT INTO
+new_company = Company.new # Company is case sensitive, references the class
+# puts new_company.inspect
+new_company["name"] = "Apple"
+new_company["city"] = "Cupertino"
+new_company["state"] = "CA"
+new_company["url"] = "https://apple.com"
+new_company.save # magic that saves it into the db
+# p new_company
+
+new_company = Company.new
+new_company["name"] = "Amazon"
+new_company["city"] = "Seattle"
+new_company["state"] = "WA"
+new_company["url"] = "https://amazon.com"
+new_company.save
+# p new_company
+
+new_company = Company.new
+new_company["name"] = "AirBnb"
+new_company["city"] = "San Francisco"
+new_company["state"] = "CA"
+new_company["url"] = "https://airbnb.com"
+new_company.save
+# p new_company
 
 # 3. query companies table to find all row with California company
+no_of_companies = Company.all.count #.all is same as Select * and .all.count is select count(*)
+puts "Companies: #{no_of_companies}"
+
+#Select from table where state = "CA"
+cali_companies = Company.where({"state" => "CA"}) #thing.where({"name" => "it"})
+p cali_companies
+puts "There are #{cali_companies.count} Cali Companies"
 
 # 4. query companies table to find single row for Apple
 
+# apple = Company.where({"name" => "Apple"})[0]
+apple = Company.find_by({"name" => "Apple"}) #same as above
+p apple
+
 # 5. read a row's column value
+
+p apple["name"]
+p apple["id"]
+p apple["city"]
 
 # 6. update a row's column value
 
+apple["url"] = "https://www.apple.com"
+p apple
+apple.save
+p apple
+
+
 # 7. delete a row
+airbnb = Company.find_by({"name" => "AirBnb"})
+p airbnb
+airbnb.destroy #always use .destroy vs. delete
+no_of_companies = Company.all.count
+puts "Companies: #{no_of_companies}"
